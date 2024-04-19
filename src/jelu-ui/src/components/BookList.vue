@@ -23,7 +23,7 @@ const books: Ref<Array<UserBook>> = ref([]);
 
 const { total, page, pageAsNumber, perPage, updatePage, getPageIsLoading, updatePageLoading } = usePagination()
 
-const { sortQuery, sortOrder, sortBy, sortOrderUpdated } = useSort('lastReadingEventDate,desc')
+const { sortQuery, sortOrder, sortBy, sortOrderUpdated } = useSort('creationDate,desc')
 
 const { showSelect, selectAll, checkedCards, cardChecked, toggleEdit } = useBulkEdition(modalClosed)
 
