@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useTitle } from '@vueuse/core';
 import { useRouteQuery } from '@vueuse/router';
-import { computed, Ref, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { computed, nextTick, onMounted, Ref, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import usePagination from '../composables/pagination';
 import useSort from '../composables/sort';
@@ -19,6 +20,8 @@ const { t } = useI18n({
     })
 
 useTitle('Jelu | Search')
+
+const router = useRouter();
 
 const searchQuery: Ref<string|undefined> = useRouteQuery('q', undefined)
 
@@ -56,6 +59,7 @@ const search = () => {
         else {
           page.value = "1"
         }
+        postPageLoadFocus();
     }
     )
     .catch(e => {
@@ -83,6 +87,30 @@ if (searchQuery.value != null) {
     search()
   }
 
+function navigateToAddBook() {
+  router.push({ name: 'add-book', query: { q: searchQuery.value } });
+}
+
+function postPageLoadFocus() {
+  if (books.value.length > 0) {
+    focusElementById('search-page-search-bar');
+  } else {
+    focusElementById('add-book-button');
+  } 
+}
+
+function focusElementById(id: string) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.focus();
+  }
+}
+
+onMounted(() => {
+  nextTick(() => {
+    focusElementById('search-page-search-bar');
+  });
+});
 </script>
 
 <template>
@@ -209,6 +237,7 @@ if (searchQuery.value != null) {
         <o-field class="title-input">
           <o-input
             v-model="searchQuery"
+            id="search-page-search-bar"
             :placeholder="t('labels.search_query')" 
             type="search"
             icon="magnify" 
@@ -223,6 +252,15 @@ if (searchQuery.value != null) {
             icon-pack="mdi"
             icon-right="magnify"
             @click="search"
+          />
+          <o-button
+            class="o-btn o-btn-circle o-btn-outline border-0 tooltip tooltip-bottom lowercase"
+            v-tooltip="t('nav.add_book')"
+            id="add-book-button"
+            icon-pack="mdi"
+            icon-right="magnify-plus-outline"
+            icon-clickable
+            @click="navigateToAddBook"
           />
         </o-field>
         <a

@@ -2,7 +2,7 @@
 import { useProgrammatic } from "@oruga-ui/oruga-next";
 import IsbnVerify from '@saekitominaga/isbn-verify';
 import { useTitle } from '@vueuse/core';
-import { computed, reactive, Ref, ref, watch } from "vue";
+import { computed, nextTick, onMounted, reactive, Ref, ref, watch } from "vue";
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -411,6 +411,12 @@ const toggleImagePickerModal = () => {
 
 function modalClosed() {
   console.log("modal closed")
+  const importBookButton = document.getElementById("import-book-button") as HTMLButtonElement;
+  nextTick(() => { 
+    if (importBookButton) {
+      importBookButton.focus();
+    }
+  });
 }
 
 const mergeMetadata = () => {
@@ -488,6 +494,10 @@ const validateIsbn13 = (isbn: string) => {
 let displayDatepicker = computed(() => {
   return eventType.value !== null && eventType.value !== "NONE"
 })
+
+onMounted(() => {
+  toggleModal(false); // Adjust according to your modal logic
+});
 
 </script>
 
@@ -1090,6 +1100,7 @@ let displayDatepicker = computed(() => {
         <div class="field">
           <button
             class="btn btn-success mb-3"
+            id="import-book-button"
             :disabled="!StringUtils.isNotBlank(form.title)"
             :class="{'btn-disabled' : progress}"
             @click="importBook"

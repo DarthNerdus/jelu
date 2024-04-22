@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useProgrammatic } from "@oruga-ui/oruga-next";
-import { ComputedRef, Ref, computed, reactive, ref } from "vue";
+import { ComputedRef, Ref, computed, nextTick, onMounted, reactive, ref } from "vue";
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { Book } from "../model/Book";
@@ -57,6 +57,9 @@ const fetchMetadata = async () => {
         progress.value = false
         metadata.value = res
         displayForm.value = false
+        nextTick(() => {
+            focusOnElementById('import-data-button');
+        });
         }
     )
 }
@@ -122,6 +125,30 @@ function scanModalClosed() {
 function pluginsModalClosed() {
   console.log("plugins modal closed")
 }
+function focusOnElementById(id: string) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.focus();
+  }
+}
+
+onMounted(() => {
+  console.log("modal opened - onMounted");
+  nextTick(() => {
+    console.log("modal opened - nextTick")
+    const titleInput = document.getElementById('title-input') as HTMLInputElement;
+    const urlParams = new URLSearchParams(window.location.search);
+    const q = urlParams.get('q');
+    if (titleInput) { 
+      if (q) {
+        const decodedQ = decodeURIComponent(q);
+        titleInput.value = decodedQ;
+        form.title = decodedQ;
+      }
+      titleInput.focus();
+    } 
+  });
+});
 
 </script>
 
@@ -159,6 +186,7 @@ function pluginsModalClosed() {
             <o-input
               v-model="form.title"
               class="input focus:input-accent"
+              id="title-input"
               @keyup.enter="fetchMetadata"
             />
           </o-field>
@@ -266,6 +294,7 @@ function pluginsModalClosed() {
       >
         <button
           class="btn btn-primary"
+          id="import-data-button"
           @click="importData"
         >
           <span class="icon">
