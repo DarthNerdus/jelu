@@ -1,3 +1,8 @@
+# What this fork is!!
+This fork is a **_constantly rebased_** set of additions and preference changes for [Jelu](https://github.com/bayang/jelu). I aim to keep the changes as atomic as possible so they can be cherry-picked to your private project or merged into upstream and afford a clean rebase against the updated `main` branch. Some of these changes I submit as PRs, some of them I do not (the ones that are just to suit my taste versus adding functionality).
+
+Please bear in mind, the `darthy` branch in this fork will be **_constantly rebasing_** against `bayang/jelu:main`. Consider it stable in what it provides, but very unsable to pull from.
+
 # JELU
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/bayang/jelu/ci.yml?branch=main&style=flat-square) ![GitHub](https://img.shields.io/github/license/bayang/jelu?style=flat-square) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/bayang/jelu?style=flat-square) ![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/wabayang/jelu/latest?label=docker%20hub&style=flat-square) [![Discord](https://img.shields.io/discord/970383499733381161?label=Discord&style=flat-square)](https://discord.gg/3RZJ4zuMP5) [![Crowdin](https://badges.crowdin.net/jelu/localized.svg)](https://crowdin.com/project/jelu)
