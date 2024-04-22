@@ -46,3 +46,7 @@ write.lock
 *.cfs
 *.si
 *.liv
+
+### direnv ###
+.direnv
+.envrc
