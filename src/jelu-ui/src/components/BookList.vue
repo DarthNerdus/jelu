@@ -432,7 +432,7 @@ try {
   </div>
 
   <o-pagination
-    v-if="books.length > 0"
+    v-if="books.length > 0 && total > perPage"
     :current="pageAsNumber"
     :total="total"
     order="centered"

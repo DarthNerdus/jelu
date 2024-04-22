@@ -292,6 +292,7 @@ getBooks()
     </div>
   </div>
   <o-pagination
+    v-if="total > perPage"
     v-model:current="pageAsNumber"
     :total="total"
     order="centered"
